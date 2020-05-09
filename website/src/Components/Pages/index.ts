@@ -3,13 +3,15 @@ import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import PlayIcon from "@material-ui/icons/SportsEsports";
 import { UserProfile } from "../../Scripts/firebaseUserTypes";
 import { NotificationMessage } from "../Misc/Notifications";
 import ErrorPage from "./ErrorPage";
+import HomePage from "./HomePage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
+import PlayPage from "./PlayPage";
 import ProfilePage from "./ProfilePage";
-import HomePage from "./HomePage";
 
 export declare interface PageProps {
   setPageKey: (pageKey: string) => void;
@@ -48,6 +50,15 @@ const pageList: PageListItem[] = [
     displaySignedIn: true,
     displaySignedOut: true,
     component: HomePage,
+  },
+  {
+    key: "play",
+    title: "Play",
+    menuLabel: "Play",
+    menuIcon: PlayIcon,
+    displaySignedIn: true,
+    displaySignedOut: true,
+    component: PlayPage,
   },
   {
     key: "login",
