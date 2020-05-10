@@ -1,8 +1,7 @@
-import { load as loadPoseNet, PoseNet } from "@tensorflow-models/posenet";
+import { load as loadPoseNet, PoseNet, Pose } from "@tensorflow-models/posenet";
 
 export const removePoseProcessor = () => {
   poseProcessorNumber = 0;
-  console.log("Remove Old PoseNet");
   const video = document.getElementById("video") as HTMLVideoElement;
   const srcObject = video.srcObject as MediaStream | null;
   srcObject?.getTracks().forEach((track) => track.stop());
@@ -15,7 +14,8 @@ export const getPoseProcessorNumber = () => poseProcessorNumber;
 export const createPoseProcessor = (
   videoWidth: number,
   videoHeight: number,
-  instanceNumber: number
+  instanceNumber: number,
+  setPoses: (poses: Pose[]) => void
 ) => {
   poseProcessorNumber = instanceNumber;
 
@@ -24,12 +24,9 @@ export const createPoseProcessor = (
       .then((video) => {
         createInitialPoseNet()
           .then((analyzer) => {
-            console.log("PoseNet Loaded.");
-            console.log(analyzer.baseModel);
-            detectPoseInRealTime(video, analyzer, instanceNumber);
+            detectPoseInRealTime(video, analyzer, instanceNumber, setPoses);
           })
           .catch((err) => {
-            console.log("PoseNet Failed to Load.");
             console.log(err);
           });
       })
@@ -132,7 +129,8 @@ const guiState = {
 function detectPoseInRealTime(
   video: HTMLVideoElement,
   net: PoseNet,
-  instanceNumber: number
+  instanceNumber: number,
+  setPoses: (poses: Pose[]) => void
 ) {
   /* const canvas = document.getElementById("output");
   const ctx = canvas.getContext("2d");
@@ -157,7 +155,7 @@ function detectPoseInRealTime(
         nmsRadius: guiState.multiPoseDetection.nmsRadius,
       });
 
-      console.log(allPoses);
+      setPoses(allPoses);
     }
 
     // Used to draw results; will likely be handled by React in a callback

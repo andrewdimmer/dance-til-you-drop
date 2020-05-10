@@ -1,11 +1,12 @@
 import { Box, Fab } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { Pose } from "@tensorflow-models/posenet";
 import React, { Fragment } from "react";
-import Webcam from "react-webcam";
 import {
   createPoseProcessor,
   removePoseProcessor,
 } from "../../Scripts/posenetProcessPose";
+import { renderPosesOnCanvas } from "../../Scripts/posenetRender";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;
@@ -18,16 +19,28 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
 }) => {
   const [maxWidth, setMaxWidth] = React.useState<number>(0);
   const [maxHeight, setMaxHeight] = React.useState<number>(0);
-  const [accessingCamera, setAccessingCamera] = React.useState<boolean>(true);
+  const [poses, setPoses] = React.useState<Pose[]>([]);
   const screenWidth = React.useRef<HTMLDivElement>(null);
   const screenHeight = React.useRef<HTMLDivElement>(null);
-  const webcamRef = React.useRef<any>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   const computeWidthAndHeight = () => {
-    if (screenWidth.current && screenHeight.current) {
+    if (
+      screenWidth.current &&
+      screenHeight.current &&
+      (screenWidth.current.clientWidth !== maxWidth ||
+        screenHeight.current.clientHeight !== maxHeight)
+    ) {
       setMaxHeight(screenHeight.current.clientHeight);
       setMaxWidth(screenWidth.current.clientWidth);
-      removePoseProcessor();
+      {
+        createPoseProcessor(
+          screenWidth.current.clientWidth,
+          screenHeight.current.clientHeight,
+          Math.floor(Math.random() * 1000000000) + 1,
+          handleUpdatePoses
+        );
+      }
     }
   };
 
@@ -36,6 +49,10 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
     window.addEventListener("resize", () => {
       setTimeout(computeWidthAndHeight, 1);
     });
+  };
+
+  const handleUpdatePoses = (poses: Pose[]) => {
+    setPoses(poses);
   };
 
   return (
@@ -61,35 +78,17 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
         }}
       />
       {setTimeout(initializeSize, 1) && <Fragment />}
-      {accessingCamera && (
-        <Webcam
-          audio={false}
-          mirrored={true}
-          onUserMedia={() => {
-            setTimeout(() => {
-              createPoseProcessor(
-                maxWidth,
-                maxHeight,
-                Math.floor(Math.random() * 1000000000) + 1
-              );
-            }, 10);
-          }}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          videoConstraints={{
-            width: 600 /*maxWidth*/,
-            height: 500 /*maxHeight*/,
-          }}
-          className={classes.fullSize}
-        />
-      )}
+      <canvas ref={canvasRef}></canvas>
+      {(() => {
+        if (canvasRef.current) {
+          renderPosesOnCanvas(canvasRef.current, poses);
+        }
+      })()}
       <Fab
         color="primary"
         aria-label="add"
         className={classes.fab}
         onClick={() => {
-          setAccessingCamera(false);
-          console.log("Camera Closed:" + accessingCamera);
           removePoseProcessor();
           setTimeout(() => {
             onClose();
