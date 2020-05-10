@@ -1,7 +1,11 @@
 import { load as loadPoseNet, PoseNet, Pose } from "@tensorflow-models/posenet";
 
+let lastPoses: Pose[] = [];
+export const getLastPoses = () => lastPoses;
+
 export const removePoseProcessor = () => {
   poseProcessorNumber = 0;
+  lastPoses = [];
   const video = document.getElementById("video") as HTMLVideoElement;
   const srcObject = video.srcObject as MediaStream | null;
   srcObject?.getTracks().forEach((track) => track.stop());
@@ -155,6 +159,7 @@ function detectPoseInRealTime(
         nmsRadius: guiState.multiPoseDetection.nmsRadius,
       });
 
+      lastPoses = allPoses;
       setPoses(allPoses);
     }
 
