@@ -136,6 +136,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
                 const Icon = item.menuIcon;
                 return (
                   <MenuItem
+                    key={item.key}
                     onClick={() => {
                       setPageKey(item.key);
                       handleClose();

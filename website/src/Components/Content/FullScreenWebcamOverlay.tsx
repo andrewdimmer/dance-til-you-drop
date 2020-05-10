@@ -2,6 +2,11 @@ import { Box, Fab } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { Fragment } from "react";
 import Webcam from "react-webcam";
+import {
+  createPoseProcessor,
+  initializePoseNet,
+  removePoseNet,
+} from "../../Scripts/posenetProcessPose";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;
@@ -12,16 +17,21 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
   onClose,
   classes,
 }) => {
-  const [maxWidth, setMaxWidth] = React.useState<number>(1280);
-  const [maxHeight, setMaxHeight] = React.useState<number>(720);
+  const [maxWidth, setMaxWidth] = React.useState<number>(0);
+  const [maxHeight, setMaxHeight] = React.useState<number>(0);
   const [accessingCamera, setAccessingCamera] = React.useState<boolean>(true);
   const screenWidth = React.useRef<HTMLDivElement>(null);
   const screenHeight = React.useRef<HTMLDivElement>(null);
+  const webcamRef = React.useRef<any>(null);
 
   const computeWidthAndHeight = () => {
     if (screenWidth.current && screenHeight.current) {
       setMaxHeight(screenHeight.current.clientHeight);
       setMaxWidth(screenWidth.current.clientWidth);
+      initializePoseNet(
+        screenWidth.current.clientWidth,
+        screenHeight.current.clientHeight
+      );
     }
   };
 
@@ -31,7 +41,6 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
       setTimeout(computeWidthAndHeight, 1);
     });
   };
-
   return (
     <Box className={classes.playBox}>
       <div
@@ -60,11 +69,15 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
           audio={false}
           mirrored={true}
           onUserMedia={() => {
-            console.log("Loaded Camera!");
+            setTimeout(() => {
+              createPoseProcessor(
+                webcamRef.current.video,
+                Math.floor(Math.random() * 1000000000) + 1
+              );
+            }, 2000);
           }}
-          onUserMediaError={() => {
-            console.log("No Camera!");
-          }}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
           videoConstraints={{ width: maxWidth, height: maxHeight }}
           className={classes.fullSize}
         />
@@ -75,7 +88,11 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
         className={classes.fab}
         onClick={() => {
           setAccessingCamera(false);
-          setTimeout(onClose, 10);
+          console.log("Camera Closed:" + accessingCamera);
+          removePoseNet();
+          setTimeout(() => {
+            onClose();
+          }, 500);
         }}
       >
         <CloseIcon />

@@ -37,7 +37,6 @@ export const getUserProfileDatabase = (
     .get()
     .then((profile) => {
       const data = profile.data();
-      console.log(data);
       return data ? (data as UserProfile) : null;
     })
     .catch(logErrReturnNull);
