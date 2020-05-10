@@ -5,8 +5,10 @@ import {
   Stepper,
   Typography,
 } from "@material-ui/core";
+import { Pose } from "@tensorflow-models/posenet";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
+import { Calibration, getCalibration } from "../Content/danceCalibration";
 import CalibrateCamera from "../Content/GameModules/CalibrateCamera";
 import Dance from "../Content/GameModules/Dance";
 import GrantCameraAccess from "../Content/GameModules/GrantCameraAccess";
@@ -25,6 +27,9 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
 }) => {
   const [activeStep, setActiveStep] = React.useState<number>(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
+  const [calibration, setCalibration] = React.useState<Calibration | null>(
+    null
+  );
   const steps = [
     "Grant Camera Permission",
     "Calibrate Camera",
@@ -48,6 +53,7 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
             nextStep={handleNext}
             previousStep={handleBack}
             classes={classes}
+            setCalibration={handleCalibration}
           />
         );
       case 2:
@@ -128,6 +134,20 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
       newSkipped.add(activeStep);
       return newSkipped;
     });
+  };
+
+  const handleCalibration = (poses: Pose[]) => {
+    const temp = getCalibration(poses);
+    if (temp) {
+      setCalibration(temp);
+      handleNext();
+    } else {
+      setNotification({
+        type: "error",
+        message: "Calibration Failed. Please try again.",
+        open: true,
+      });
+    }
   };
 
   return (

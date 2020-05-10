@@ -4,18 +4,22 @@ import { Pose } from "@tensorflow-models/posenet";
 import React, { Fragment } from "react";
 import {
   createPoseProcessor,
+  getLastPoses,
   removePoseProcessor,
 } from "../../Scripts/posenetProcessPose";
 import { renderPosesOnCanvas } from "../../Scripts/posenetRender";
+import { getCalibrationNumber, setCalibrationNumber } from "./danceCalibration";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;
   classes: any;
+  setCalibration?: (poses: Pose[]) => void;
 }
 
 const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayProps> = ({
   onClose,
   classes,
+  setCalibration,
 }) => {
   const [maxWidth, setMaxWidth] = React.useState<number>(0);
   const [maxHeight, setMaxHeight] = React.useState<number>(0);
@@ -40,6 +44,21 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
           Math.floor(Math.random() * 1000000000) + 1,
           handleUpdatePoses
         );
+        if (setCalibration && getCalibrationNumber() === 0) {
+          const calNumber = Math.floor(Math.random() * 1000000000) + 1;
+          setCalibrationNumber(calNumber);
+          ((calNumber: number) =>
+            setTimeout(() => {
+              const tempPoses = getLastPoses();
+              if (getCalibrationNumber() === calNumber) {
+                if (tempPoses.length > 0) {
+                  setCalibration(tempPoses);
+                  setCalibrationNumber(0);
+                  removePoseProcessor();
+                }
+              }
+            }, 10000))(calNumber);
+        }
       }
     }
   };
@@ -90,9 +109,7 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
         className={classes.fab}
         onClick={() => {
           removePoseProcessor();
-          setTimeout(() => {
-            onClose();
-          }, 500);
+          onClose();
         }}
       >
         <CloseIcon />
