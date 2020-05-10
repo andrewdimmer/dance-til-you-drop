@@ -1,5 +1,4 @@
 import {
-  Button,
   Container,
   Step,
   StepLabel,
@@ -11,9 +10,9 @@ import { PageProps } from ".";
 import CalibrateCamera from "../Content/GameModules/CalibrateCamera";
 import Dance from "../Content/GameModules/Dance";
 import GrantCameraAccess from "../Content/GameModules/GrantCameraAccess";
+import ScoreScreen from "../Content/GameModules/ScoreScreen";
 import SelectDance from "../Content/GameModules/SelectDance";
 import ErrorPage from "./ErrorPage";
-import ScoreScreen from "../Content/GameModules/ScoreScreen";
 
 const PlayPage: React.FunctionComponent<PageProps> = ({
   currentUser,
