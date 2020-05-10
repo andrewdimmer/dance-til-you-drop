@@ -3,6 +3,7 @@ import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import ScoreIcon from "@material-ui/icons/Score";
 import PlayIcon from "@material-ui/icons/SportsEsports";
 import { UserProfile } from "../../Scripts/firebaseUserTypes";
 import { NotificationMessage } from "../Misc/Notifications";
@@ -59,6 +60,15 @@ const pageList: PageListItem[] = [
     displaySignedIn: true,
     displaySignedOut: true,
     component: PlayPage,
+  },
+  {
+    key: "highscores",
+    title: "High Scores",
+    menuLabel: "High Scores",
+    menuIcon: ScoreIcon,
+    displaySignedIn: true,
+    displaySignedOut: true,
+    component: ErrorPage,
   },
   {
     key: "login",
