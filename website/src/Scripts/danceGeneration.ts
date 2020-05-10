@@ -88,36 +88,36 @@ const generateDancePose = (
           Math.sin(rightWristDegLen.rad + rightElbowDegLen.rad),
     };
     const leftHipDegLen = {
-      rad: (Math.random() * 45 - 15) * (Math.PI / 180),
+      rad: (Math.random() * 45 - 30) * (Math.PI / 180),
       len: (Math.random() * 0.2 + 0.8) * calibration.torsoLength,
     };
     const leftHipXY = {
       x: leftShoulderXY.x + leftHipDegLen.len * Math.sin(leftHipDegLen.rad),
-      y: leftShoulderXY.y - leftHipDegLen.len * Math.cos(leftHipDegLen.rad),
+      y: leftShoulderXY.y + leftHipDegLen.len * Math.cos(leftHipDegLen.rad),
     };
     const rightHipDegLen = {
-      rad: (Math.random() * 45 - 30) * (Math.PI / 180),
+      rad: (Math.random() * 45 - 15) * (Math.PI / 180),
       len: (Math.random() * 0.2 + 0.8) * calibration.torsoLength,
     };
     const rightHipXY = {
       x: rightShoulderXY.x + rightHipDegLen.len * Math.sin(rightHipDegLen.rad),
-      y: rightShoulderXY.y - rightHipDegLen.len * Math.cos(rightHipDegLen.rad),
+      y: rightShoulderXY.y + rightHipDegLen.len * Math.cos(rightHipDegLen.rad),
     };
     const leftKneeDegLen = {
-      rad: (Math.random() * 120 - 30) * (Math.PI / 180),
+      rad: (Math.random() * 120 - 90) * (Math.PI / 180),
       len: (Math.random() * 0.3 + 0.7) * calibration.upperLegLength,
     };
     const leftKneeXY = {
       x: leftHipXY.x + leftKneeDegLen.len * Math.sin(leftKneeDegLen.rad),
-      y: leftHipXY.y - leftKneeDegLen.len * Math.cos(leftKneeDegLen.rad),
+      y: leftHipXY.y + leftKneeDegLen.len * Math.cos(leftKneeDegLen.rad),
     };
     const rightKneeDegLen = {
-      rad: (Math.random() * 120 - 90) * (Math.PI / 180),
+      rad: (Math.random() * 120 - 30) * (Math.PI / 180),
       len: (Math.random() * 0.3 + 0.7) * calibration.upperLegLength,
     };
     const rightKneeXY = {
       x: rightHipXY.x + rightKneeDegLen.len * Math.sin(rightKneeDegLen.rad),
-      y: rightHipXY.y - rightKneeDegLen.len * Math.cos(rightKneeDegLen.rad),
+      y: rightHipXY.y + rightKneeDegLen.len * Math.cos(rightKneeDegLen.rad),
     };
     const leftAnkleDegLen = {
       rad: (Math.random() * 360 - 180) * (Math.PI / 180),
@@ -129,7 +129,7 @@ const generateDancePose = (
         leftAnkleDegLen.len *
           Math.cos(-leftAnkleDegLen.rad + leftKneeDegLen.rad),
       y:
-        leftKneeXY.y +
+        leftKneeXY.y -
         leftAnkleDegLen.len *
           Math.sin(-leftAnkleDegLen.rad + leftKneeDegLen.rad),
     };
@@ -143,7 +143,7 @@ const generateDancePose = (
         rightAnkleDegLen.len *
           Math.cos(rightAnkleDegLen.rad + rightKneeDegLen.rad),
       y:
-        rightKneeXY.y +
+        rightKneeXY.y -
         rightAnkleDegLen.len *
           Math.sin(rightAnkleDegLen.rad + rightKneeDegLen.rad),
     };

@@ -31,7 +31,7 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
     null
   );
   const [danceName, setDanceName] = React.useState<string>("");
-  const [speed, setSpeed] = React.useState<number>(3000);
+  const [speed, setSpeed] = React.useState<number>(10000);
   const steps = [
     "Grant Camera Permission",
     "Calibrate Camera",

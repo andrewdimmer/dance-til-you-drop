@@ -53,8 +53,8 @@ export function renderPosesOnCanvas(
               score: keypoint.score,
             };
           });
-          drawKeypoints(matchMeKeypoints, minPartConfidence, ctx, "green");
-          drawSkeleton(matchMeKeypoints, minPartConfidence, ctx, "green");
+          drawKeypoints(matchMeKeypoints, minPartConfidence, ctx, "white");
+          drawSkeleton(matchMeKeypoints, minPartConfidence, ctx, "white");
         }
       }
     });
