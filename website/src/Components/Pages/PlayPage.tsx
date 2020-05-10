@@ -65,6 +65,8 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
             previousStep={handleBack}
             skipStep={handleSkip}
             classes={classes}
+            setDanceName={setDanceName}
+            setSpeed={setSpeed}
           />
         );
       case 3:
