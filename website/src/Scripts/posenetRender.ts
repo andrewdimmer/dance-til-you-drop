@@ -4,10 +4,13 @@ import {
   getAdjacentKeyPoints,
 } from "@tensorflow-models/posenet";
 
-const color = "aqua";
 const lineWidth = 2;
 
-export function renderPosesOnCanvas(canvas: HTMLCanvasElement, poses: Pose[]) {
+export function renderPosesOnCanvas(
+  canvas: HTMLCanvasElement,
+  poses: Pose[],
+  matchMe?: Pose
+) {
   const ctx = canvas.getContext("2d");
   const video = document.getElementById("video") as HTMLVideoElement;
 
@@ -39,6 +42,20 @@ export function renderPosesOnCanvas(canvas: HTMLCanvasElement, poses: Pose[]) {
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
         drawSkeleton(keypoints, minPartConfidence, ctx);
+        if (matchMe) {
+          const matchMeKeypoints = matchMe.keypoints.map((keypoint) => {
+            return {
+              part: keypoint.part,
+              position: {
+                x: keypoint.position.x + keypoints[5].position.x,
+                y: keypoint.position.y + keypoints[5].position.y,
+              },
+              score: keypoint.score,
+            };
+          });
+          drawKeypoints(matchMeKeypoints, minPartConfidence, ctx, "green");
+          drawSkeleton(matchMeKeypoints, minPartConfidence, ctx, "green");
+        }
       }
     });
   }
@@ -86,6 +103,7 @@ export function drawSkeleton(
   keypoints: Keypoint[],
   minConfidence: number,
   ctx: CanvasRenderingContext2D,
+  color = "aqua",
   scale = 1
 ) {
   const adjacentKeyPoints = getAdjacentKeyPoints(keypoints, minConfidence);
@@ -108,6 +126,7 @@ export function drawKeypoints(
   keypoints: Keypoint[],
   minConfidence: number,
   ctx: CanvasRenderingContext2D,
+  color = "aqua",
   scale = 1
 ) {
   for (let i = 0; i < keypoints.length; i++) {

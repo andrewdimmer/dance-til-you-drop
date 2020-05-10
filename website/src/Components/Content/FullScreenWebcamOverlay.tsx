@@ -11,22 +11,34 @@ import { renderPosesOnCanvas } from "../../Scripts/posenetRender";
 import {
   getCalibrationNumber,
   setCalibrationNumber,
+  Calibration,
 } from "../../Scripts/danceCalibration";
+import {
+  createDanceGenerator,
+  removeDanceGenerator,
+} from "../../Scripts/danceGeneration";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;
   classes: any;
   setCalibration?: (poses: Pose[]) => void;
+  calibration?: Calibration;
+  danceName?: string;
+  speed?: number;
 }
 
 const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayProps> = ({
   onClose,
   classes,
   setCalibration,
+  calibration,
+  danceName,
+  speed,
 }) => {
   const [maxWidth, setMaxWidth] = React.useState<number>(0);
   const [maxHeight, setMaxHeight] = React.useState<number>(0);
   const [poses, setPoses] = React.useState<Pose[]>([]);
+  const [matchMe, setMatchMe] = React.useState<Pose | undefined>(undefined);
   const screenWidth = React.useRef<HTMLDivElement>(null);
   const screenHeight = React.useRef<HTMLDivElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -62,6 +74,16 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
               }
             }, 10000))(calNumber);
         }
+        console.log(calibration);
+        console.log(speed);
+        if (calibration && speed) {
+          createDanceGenerator(
+            calibration,
+            speed,
+            Math.floor(Math.random() * 1000000000) + 1,
+            handleUpdateMatchMe
+          );
+        }
       }
     }
   };
@@ -75,6 +97,10 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
 
   const handleUpdatePoses = (poses: Pose[]) => {
     setPoses(poses);
+  };
+
+  const handleUpdateMatchMe = (pose: Pose) => {
+    setMatchMe(pose);
   };
 
   return (
@@ -103,7 +129,7 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
       <canvas ref={canvasRef}></canvas>
       {(() => {
         if (canvasRef.current) {
-          renderPosesOnCanvas(canvasRef.current, poses);
+          renderPosesOnCanvas(canvasRef.current, poses, matchMe);
         }
       })()}
       <Fab
@@ -112,6 +138,7 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
         className={classes.fab}
         onClick={() => {
           removePoseProcessor();
+          removeDanceGenerator();
           onClose();
         }}
       >

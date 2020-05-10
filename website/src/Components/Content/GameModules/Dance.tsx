@@ -1,17 +1,24 @@
 import { Button, Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
+import { Calibration } from "../../../Scripts/danceCalibration";
 import FullScreenWebcamOverlay from "../FullScreenWebcamOverlay";
 
 declare interface DanceProps {
   nextStep: () => void;
   previousStep: () => void;
   classes: any;
+  calibration: Calibration;
+  danceName?: string;
+  speed?: number;
 }
 
 const Dance: React.FunctionComponent<DanceProps> = ({
   nextStep,
   previousStep,
   classes,
+  calibration,
+  danceName,
+  speed,
 }) => {
   const [dancing, setDancing] = React.useState<boolean>(false);
 
@@ -52,6 +59,9 @@ const Dance: React.FunctionComponent<DanceProps> = ({
             nextStep();
           }}
           classes={classes}
+          calibration={calibration}
+          danceName={danceName}
+          speed={speed}
         />
       )}
     </Fragment>

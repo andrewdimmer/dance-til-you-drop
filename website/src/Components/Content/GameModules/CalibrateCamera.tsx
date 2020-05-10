@@ -64,7 +64,6 @@ const CalibrateCamera: React.FunctionComponent<CalibrateCameraProps> = ({
         <FullScreenWebcamOverlay
           onClose={() => {
             setCalibrating(false);
-            nextStep();
           }}
           classes={classes}
           setCalibration={(poses) => {

@@ -30,6 +30,8 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
   const [calibration, setCalibration] = React.useState<Calibration | null>(
     null
   );
+  const [danceName, setDanceName] = React.useState<string>("");
+  const [speed, setSpeed] = React.useState<number>(3000);
   const steps = [
     "Grant Camera Permission",
     "Calibrate Camera",
@@ -66,13 +68,25 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
           />
         );
       case 3:
-        return (
-          <Dance
-            nextStep={handleNext}
-            previousStep={handleBack}
-            classes={classes}
-          />
-        );
+        if (calibration !== null) {
+          return (
+            <Dance
+              nextStep={handleNext}
+              previousStep={handleBack}
+              classes={classes}
+              calibration={calibration}
+              danceName={danceName !== "" ? danceName : undefined}
+              speed={danceName === "" ? speed : undefined}
+            />
+          );
+        } else {
+          return (
+            <Typography variant="body1">
+              Error! Calibration is not set. Please refresh the page and try
+              again.
+            </Typography>
+          );
+        }
       case 4:
         return (
           <ScoreScreen
