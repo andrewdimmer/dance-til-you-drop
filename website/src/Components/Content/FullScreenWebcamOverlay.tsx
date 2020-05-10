@@ -8,7 +8,10 @@ import {
   removePoseProcessor,
 } from "../../Scripts/posenetProcessPose";
 import { renderPosesOnCanvas } from "../../Scripts/posenetRender";
-import { getCalibrationNumber, setCalibrationNumber } from "./danceCalibration";
+import {
+  getCalibrationNumber,
+  setCalibrationNumber,
+} from "../../Scripts/danceCalibration";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;

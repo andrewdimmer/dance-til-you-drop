@@ -8,7 +8,7 @@ import {
 import { Pose } from "@tensorflow-models/posenet";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
-import { Calibration, getCalibration } from "../Content/danceCalibration";
+import { Calibration, getCalibration } from "../../Scripts/danceCalibration";
 import CalibrateCamera from "../Content/GameModules/CalibrateCamera";
 import Dance from "../Content/GameModules/Dance";
 import GrantCameraAccess from "../Content/GameModules/GrantCameraAccess";
