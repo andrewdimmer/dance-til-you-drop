@@ -21,8 +21,11 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
   const [dances, setDances] = React.useState<string[]>([]);
 
   const handleSpeedChange = (event: any, newValue: number | number[]) => {
+    console.log(
+      10000 - (typeof newValue !== "number" ? newValue[0] : newValue) * 95
+    );
     setSpeed(
-      10000 - (typeof newValue !== "number" ? newValue[0] : newValue) * 8
+      10000 - (typeof newValue !== "number" ? newValue[0] : newValue) * 95
     );
   };
 
@@ -33,7 +36,8 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
       </Container>
       {dances.length === 0 && (
         <Typography variant="body1">
-          No pre-made dances are available at this time.
+          No pre-made dances are available at this time. In the future, you will
+          be able to either get pre-made dances, or record your own!
         </Typography>
       )}
       <Container className={classes.pageTitle}>
