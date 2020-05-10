@@ -6,7 +6,6 @@ import {
   createPoseProcessor,
   removePoseProcessor,
 } from "../../Scripts/posenetProcessPose";
-import { bindPage } from "../../Scripts/posenetProcessPoseNew";
 
 declare interface FullScreenWebcamOverlayProps {
   onClose: () => void;
@@ -39,8 +38,6 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
     });
   };
 
-  bindPage();
-
   return (
     <Box className={classes.playBox}>
       <div
@@ -69,12 +66,13 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
           audio={false}
           mirrored={true}
           onUserMedia={() => {
-            /* setTimeout(() => {
+            setTimeout(() => {
               createPoseProcessor(
-                webcamRef.current.video,
+                maxWidth,
+                maxHeight,
                 Math.floor(Math.random() * 1000000000) + 1
               );
-            }, 10); */
+            }, 10);
           }}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
