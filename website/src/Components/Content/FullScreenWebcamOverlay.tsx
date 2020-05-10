@@ -4,8 +4,7 @@ import React, { Fragment } from "react";
 import Webcam from "react-webcam";
 import {
   createPoseProcessor,
-  initializePoseNet,
-  removePoseNet,
+  removePoseProcessor,
 } from "../../Scripts/posenetProcessPose";
 
 declare interface FullScreenWebcamOverlayProps {
@@ -28,10 +27,7 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
     if (screenWidth.current && screenHeight.current) {
       setMaxHeight(screenHeight.current.clientHeight);
       setMaxWidth(screenWidth.current.clientWidth);
-      initializePoseNet(
-        screenWidth.current.clientWidth,
-        screenHeight.current.clientHeight
-      );
+      removePoseProcessor();
     }
   };
 
@@ -89,7 +85,7 @@ const FullScreenWebcamOverlay: React.FunctionComponent<FullScreenWebcamOverlayPr
         onClick={() => {
           setAccessingCamera(false);
           console.log("Camera Closed:" + accessingCamera);
-          removePoseNet();
+          removePoseProcessor();
           setTimeout(() => {
             onClose();
           }, 500);
