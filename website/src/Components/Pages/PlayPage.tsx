@@ -65,6 +65,8 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
             previousStep={handleBack}
             skipStep={handleSkip}
             classes={classes}
+            setDanceName={setDanceName}
+            setSpeed={setSpeed}
           />
         );
       case 3:
@@ -168,7 +170,7 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
     <Fragment>
       <Container className={classes.pageTitle}>
         <Typography variant="h3">
-          Let's get ready to play Dance Til You Drop!
+          Let's get ready to play Dance 'Til You Drop!
         </Typography>
       </Container>
       <Stepper activeStep={activeStep} className={classes.themeBackgroundColor}>

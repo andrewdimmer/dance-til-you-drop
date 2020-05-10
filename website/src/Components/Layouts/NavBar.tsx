@@ -74,7 +74,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            {pageTitle ? `${pageTitle} - ` : ""}Dance Til You Drop
+            {pageTitle ? `${pageTitle} - ` : ""}Dance 'Til You Drop
           </Typography>
 
           <div>

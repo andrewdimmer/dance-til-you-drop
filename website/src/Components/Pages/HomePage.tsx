@@ -12,7 +12,7 @@ const HomePage: React.FunctionComponent<PageProps> = ({
   return (
     <Fragment>
       <Container className={classes.pageTitle}>
-        <Typography variant="h3">Dance Til You Drop!</Typography>
+        <Typography variant="h3">Dance 'Til You Drop!</Typography>
       </Container>
       <Button
         color="primary"

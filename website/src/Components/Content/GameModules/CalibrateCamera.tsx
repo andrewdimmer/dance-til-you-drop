@@ -24,7 +24,7 @@ const CalibrateCamera: React.FunctionComponent<CalibrateCameraProps> = ({
         <Typography variant="h4">Calibrate Camera</Typography>
       </Container>
       <Typography variant="body1" className={classes.marginedTopBottom}>
-        Dance Til You Drop uses your image to see when you've done each dance
+        Dance 'Til You Drop uses your image to see when you've done each dance
         move. To do that, we first need to know where you are in the picture.
       </Typography>
       <Typography variant="body1" className={classes.marginedTopBottom}>

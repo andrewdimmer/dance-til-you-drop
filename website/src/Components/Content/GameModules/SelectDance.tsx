@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, Typography, Slider } from "@material-ui/core";
 import React, { Fragment } from "react";
 
 declare interface SelectDanceProps {
@@ -6,6 +6,8 @@ declare interface SelectDanceProps {
   previousStep: () => void;
   skipStep: () => void;
   classes: any;
+  setDanceName: (name: string) => void;
+  setSpeed: (speed: number) => void;
 }
 
 const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
@@ -13,8 +15,19 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
   previousStep,
   skipStep,
   classes,
+  setDanceName,
+  setSpeed,
 }) => {
   const [dances, setDances] = React.useState<string[]>([]);
+
+  const handleSpeedChange = (event: any, newValue: number | number[]) => {
+    console.log(
+      10000 - (typeof newValue !== "number" ? newValue[0] : newValue) * 95
+    );
+    setSpeed(
+      10000 - (typeof newValue !== "number" ? newValue[0] : newValue) * 95
+    );
+  };
 
   return (
     <Fragment>
@@ -23,7 +36,8 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
       </Container>
       {dances.length === 0 && (
         <Typography variant="body1">
-          No pre-made dances are available at this time.
+          No pre-made dances are available at this time. In the future, you will
+          be able to either get pre-made dances, or record your own!
         </Typography>
       )}
       <Container className={classes.pageTitle}>
@@ -31,7 +45,6 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
           Dance Party Mode!
         </Typography>
       </Container>
-
       <Typography variant="body1" className={classes.marginedTopBottom}>
         Dance to for as long as you can.
       </Typography>
@@ -39,6 +52,37 @@ const SelectDance: React.FunctionComponent<SelectDanceProps> = ({
         Try to match the random pose before the time runs out. Get the pose
         faster, and earn more points!
       </Typography>
+      <Container>
+        <Slider
+          defaultValue={0}
+          aria-labelledby="discrete-slider-custom"
+          step={25}
+          valueLabelDisplay="off"
+          onChange={handleSpeedChange}
+          marks={[
+            {
+              value: 0,
+              label: '"Normal" Speed',
+            },
+            {
+              value: 25,
+              label: "Light Speed",
+            },
+            {
+              value: 50,
+              label: "Ridiculous Speed",
+            },
+            {
+              value: 75,
+              label: "Ludicrous Speed",
+            },
+            {
+              value: 100,
+              label: "Plaid",
+            },
+          ]}
+        />
+      </Container>
       <Button
         color="primary"
         fullWidth

@@ -106,7 +106,7 @@ const ViewEditUserEmail: React.FunctionComponent<PageProps> = ({
     >
       <Typography variant="h4">Email Address</Typography>
       <Typography variant="body1">
-        Note this is also your username into Dance Til You Drop.
+        Note this is also your username into Dance 'Til You Drop.
       </Typography>
       <Grid
         container
