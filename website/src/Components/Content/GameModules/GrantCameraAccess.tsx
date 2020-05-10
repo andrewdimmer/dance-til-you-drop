@@ -47,7 +47,7 @@ const GrantCameraAccess: React.FunctionComponent<GrantCameraAccessProps> = ({
             setChecking(false);
             setNotification({
               type: "warning",
-              message: "Dance Til You Drop does not have access to a camera.",
+              message: "Dance 'Til You Drop does not have access to a camera.",
               open: true,
             });
           }}
