@@ -8,6 +8,7 @@ import PlayIcon from "@material-ui/icons/SportsEsports";
 import { UserProfile } from "../../Scripts/firebaseUserTypes";
 import { NotificationMessage } from "../Misc/Notifications";
 import ErrorPage from "./ErrorPage";
+import HighScorePage from "./HighScorePage";
 import HomePage from "./HomePage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
@@ -68,7 +69,7 @@ const pageList: PageListItem[] = [
     menuIcon: ScoreIcon,
     displaySignedIn: true,
     displaySignedOut: true,
-    component: ErrorPage,
+    component: HighScorePage,
   },
   {
     key: "login",
