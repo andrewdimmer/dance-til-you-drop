@@ -47,6 +47,7 @@ const PlayPage: React.FunctionComponent<PageProps> = ({
             setNotification={setNotification}
             nextStep={handleNext}
             classes={classes}
+            currentUserProfile={currentUserProfile}
           />
         );
       case 1:

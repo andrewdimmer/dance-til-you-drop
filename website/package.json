@@ -18,6 +18,7 @@
     "firebase": "^7.14.3",
     "firebaseui": "^4.5.0",
     "material-ui-dropzone": "^3.0.0",
+    "qrcode-generator": "^1.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebaseui": "^4.1.0",
